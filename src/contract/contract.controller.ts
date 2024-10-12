@@ -2,7 +2,6 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ContractService } from './contract.service';
 import {
   GetActionResponse,
-  LinkRequest,
   StellarAction,
   StellarLinkRequest,
 } from './contract.types';
@@ -21,16 +20,6 @@ export class ContractController {
       website: action.website,
       actions: action.actions.map(this.mapAction),
     };
-  }
-
-  @Post('debug/:id/:action')
-  async processDebug(
-    @Param('id') id: string,
-    @Param('action') action: string,
-    @Body() request: StellarLinkRequest,
-  ) {
-    const response = await this.service.processDebug(id, action, request);
-    return response;
   }
 
   @Post(':id/:action')

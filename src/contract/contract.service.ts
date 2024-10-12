@@ -18,26 +18,6 @@ const STELLAR_NETWORK_PASSPHRASES = {
 export class ContractService {
 constructor(private repository: ContractRepository) {}
 
-async processDebug(id: string, action: string, request: StellarLinkRequest): Promise<LinkResponse> {
-    console.log(request);
-    const processedAction = await this.processAction(id, action, request);
-    console.log("Processed Action");
-    const keys = StellarSdk.Keypair.fromSecret("SDKQ6ALGJP6YRZPPEWNLIZ6TWV7JXNRIPIJLTQWA4GPH237KOYE4MUNU");    
-    const rpc = new SorobanRpc.Server(STELLAR_NETWORK_ADDRESSES[processedAction.network]);
-
-    const tx = TransactionBuilder.fromXDR(processedAction.transaction, StellarSdk.Networks.TESTNET)
-    const preparedTx = await rpc.prepareTransaction(tx);
-    preparedTx.sign(keys);
-    const result = await rpc.sendTransaction(preparedTx);
-    
-    console.log("Result: ");
-    console.log(result);
-    console.log(result.errorResult);
-    console.log("Done");
-    
-    return processedAction
-    }
-
     async getAction(id: string): Promise<StellarEntity> {
         return this.repository.get(id);
     }
