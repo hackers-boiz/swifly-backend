@@ -1,0 +1,11 @@
+services:
+  backend:
+    build:
+        dockerfile: Dockerfile
+    ports:
+      - "80:3000"
+    logging:
+      driver: json-file
+      options:
+        max-size: 50mb
+        max-file: 10
