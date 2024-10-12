@@ -22,7 +22,7 @@ async processDebug(id: string, action: string, request: StellarLinkRequest): Pro
     console.log(request);
     const processedAction = await this.processAction(id, action, request);
     console.log("Processed Action");
-    const keys = StellarSdk.Keypair.fromSecret("SECRET_KEY");    
+    const keys = StellarSdk.Keypair.fromSecret("SDKQ6ALGJP6YRZPPEWNLIZ6TWV7JXNRIPIJLTQWA4GPH237KOYE4MUNU");    
     const rpc = new SorobanRpc.Server(STELLAR_NETWORK_ADDRESSES[processedAction.network]);
 
     const tx = TransactionBuilder.fromXDR(processedAction.transaction, StellarSdk.Networks.TESTNET)

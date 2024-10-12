@@ -3,7 +3,6 @@ import { ContractService } from './contract.service';
 import {
   GetActionResponse,
   LinkRequest,
-  LinkResponse,
   StellarAction,
   StellarLinkRequest,
 } from './contract.types';
@@ -40,8 +39,7 @@ export class ContractController {
     @Param('action') action: string,
     @Body() request: StellarLinkRequest,
   ) {
-    const response = await this.service.processAction(id, action, request);
-    return response;
+    return await this.service.processAction(id, action, request);
   }
 
   private mapAction(actions: StellarAction) {

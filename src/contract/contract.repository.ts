@@ -1,35 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as StellarSdk from "@stellar/stellar-sdk";
-import { SorobanRpc, TransactionBuilder } from '@stellar/stellar-sdk';
-import { LinkResponse, StellarEntity, StellarLinkRequest, StellarBaseInput } from './contract.types';
+import { StellarEntity } from './contract.types';
 import { HttpService } from '@nestjs/axios';
-import { Observable, firstValueFrom } from 'rxjs';
-import { AxiosResponse } from 'axios';
+import { firstValueFrom } from 'rxjs';
 
-const STELLAR_NETWORK_ADDRESSES = {
-    'TESTNET': "https://soroban-testnet.stellar.org",
-    'MAINNET': "https://soroban.stellar.org",
-}
-
-const STELLAR_NETWORK_PASSPHRASES = {
-    'TESTNET': StellarSdk.Networks.TESTNET,
-    'MAINNET': StellarSdk.Networks.PUBLIC,
-}
-
-const PREFIX = "https://raw.githubusercontent.com/hackers-boiz/swifly-verification/refs/heads/main/swifly/"
-const POSTFIX = "/metadata.json"
+const BASE_URL = 'https://raw.githubusercontent.com';
+const PREFIX = '/hackers-boiz/swifly-verification/refs/heads/main/swifly/';
+const POSTFIX = '/metadata.json';
 
 @Injectable()
 export class ContractRepository {
-    constructor(private http: HttpService) {}
+  constructor(private http: HttpService) {}
 
-    async get(id: string): Promise<StellarEntity> {
-        try {
-            const repsonse = await firstValueFrom(this.http.get(PREFIX + id + POSTFIX));
-            return repsonse.data;
-        } catch (error) {
-            throw new NotFoundException("Swifly not found");
-        }
+  async get(id: string): Promise<StellarEntity> {
+    try {
+      const request = this.http.get(BASE_URL + PREFIX + id + POSTFIX);
+      const repsonse = await firstValueFrom(request);
+      return repsonse.data;
+    } catch (error) {
+      throw new NotFoundException('Swifly not found');
     }
+  }
 }
-
