@@ -10,6 +10,16 @@ import {
 export class ContractController {
   constructor(private readonly service: ContractService) {}
 
+  @Post('debug/:id/:action')
+  async processDebug(
+    @Param('id') id: string,
+    @Param('action') action: string,
+    @Body() request: StellarLinkRequest,
+  ) {
+    const response = await this.service.processDebug(id, action, request);
+    return response;
+  }
+
   @Get(':id')
   async getAction(@Param('id') id: string): Promise<GetActionResponse> {
     const action = await this.service.getAction(id);

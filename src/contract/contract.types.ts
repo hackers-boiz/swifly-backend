@@ -52,9 +52,10 @@ export interface StellarBaseInput {
 
 export interface StellarSpecialInput {
   type: StellarSpecialType;
+  value?: any;
 }
 
-export type StellarSpecialType = 'caller';
+export type StellarSpecialType = 'caller' | 'distribution';
 
 export type StellarBaseType =
   | 'u32'
